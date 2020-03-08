@@ -1,0 +1,27 @@
+
+h1{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 6em;
+    color:#8D021F;
+    text-align: center;
+}
+h2{
+    text-align: center;
+}
+body{
+
+    background-color: lightgray;
+}
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+form{
+    text-align: center;
+    
+}
+textarea{
+    align-self: center;
+}
