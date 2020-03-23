@@ -1,3 +1,5 @@
+*
+// Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyDIWmtFU8XSclpT9utSZ_zBcaurqYDPcLE",
   authDomain: "wss-website-d3f51.firebaseapp.com",
@@ -9,34 +11,83 @@ var firebaseConfig = {
   measurementId: "G-MPVEWKDELE"
 };
 
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 var storage = firebase.storage();
-var storageRef = storage.ref();
-var listRef =storageRef.child("Student-resources/Physics") ;
 
-// Variables
-var ref1  = "Student-resources/Physics/"
+const myForm = document.querySelector("#fileBtn");
+const storageRef1 = document.querySelector("#inpFile");
+var storageRef = firebase.storage().ref();
+
+myForm.addEventListener('click',e=>{
+    e.preventDefault();
+    let storageRef = firebase.storage().ref(storageRef1.files[0].name);
+    
+    console.log(storageRef1.files[0]);
+    storageRef.put(storageRef1.files[0]).then(function(snapshot) {
+        console.log('Uploaded a blob or file!');
+    });
+});
+
+
+//list 
+// Create a reference under which you want to list
+var listRef = storageRef.child('Student-Resources/');
+
+// Find all the prefixes and items.
+console.log("helo")
+listRef.listAll().then(function(res) {
+  res.prefixes.forEach(function(folderRef) {
+   console.log(folderRef.name);
+
+
+    // All the prefixes under listRef.
+    // You may call listAll() recursively on them.
+  });
+  console.log("helo")
+  var itemArray = [];
+  
+  res.items.forEach(function(itemRef) {
+    console.log(itemRef.location);
+    itemArray.push(itemRef.location.path_)
+    //console.log(itemArray.lengt);
+    //All the items under listRef.
+  });
+  console.log("helo")
+ 
+
+  
+  itemArray.forEach(item =>{
+    var listItem = document.createElement("li");
+    var anchorTag = document.createElement('a');
+    listItem.textContent = item.split("/")[1];
+  });
+
+}).catch(function(error) {
+  // Uh-oh, an error occurred!
+});
 
 
 /******Get all files from a folder and list on DOM for viewing and download********/
 
 //Grab reference to all files from a specific path on Storage 
-const storageRefOne = storage.ref('Student-resources/Physics/');
-
+const storageRefOne = storage.ref('folder/');
 //Create reference to list area on DOM
 const fileList = document.querySelector("#file-list");
 
 //Get file download url and render to DOM
 //NOTE: This is a function and must be called in order to work
 async function getFileInfo() {
-  fileInfo = await storageRefOne.listAll(); //Get all files from reference
-  fileInfo.items.forEach(async item => { //Go through each file and render to DOM
+
+
+   fileInfo = await storageRefOne.listAll(); //Get all files from reference
+   fileInfo.items.forEach(async item => { //Go through each file and render to DOM
 
     //Create path to file
-    let pathToFile = `Student-resources/Physics/${item.name}`;
+    let pathToFile = `folder/${item.name}`;
   
     //Create reference to file
     let fileReference = storage.ref(pathToFile); 
@@ -58,6 +109,7 @@ async function getFileInfo() {
     let fileDeleteButton = document.createElement('button');
     fileDeleteButton.setAttribute('id',`delete-${item.name}`)
     fileDeleteButton.textContent = '❌';
+    
     
     //Create list element
     let listelement = document.createElement('li');
