@@ -168,3 +168,11 @@ async function getFileInfo() {
 
 //Call function
 getFileInfo();
+
+
+
+
+
+        <textarea id="myText" rows="4" cols="50">
+            We love to share our experiments, ideas, and knowledge with everyone by writing articles on the latest technology trends.
+        </textarea>
